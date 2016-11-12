@@ -1,0 +1,12 @@
+* PI GPIO Benchmarks
+
+This repository contains benchmarking code in various languages to
+measure IO performance of the raspberry pi.
+
+** Propeller Setup
+
+I use the Pimoroni Propellerhat. Pin A0 is connected to BCM
+GPIO24. The =blink.spin= contains a simple .5Hz rectangle waveform
+generator.
+
+Use =build.sh blink= to compile & upload to the HAT.
