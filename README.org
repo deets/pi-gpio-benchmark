@@ -10,3 +10,12 @@ GPIO24. The =blink.spin= contains a simple .5Hz rectangle waveform
 generator.
 
 Use =build.sh blink= to compile & upload to the HAT.
+
+** Results
+
+|----------+------------------+------------------------|
+| Pi Model | Benchmark        | Results                |
+|----------+------------------+------------------------|
+| RPi3     | rpi-gpio-test.py | ~290000 samples/second |
+|----------+------------------+------------------------|
+
