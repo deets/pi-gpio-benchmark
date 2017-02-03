@@ -1,7 +1,7 @@
 /**
  * Compile with 
  *   
- *  gcc -o rpi-gpio-test rpi-gpio-test.c -lwiringPi -O3
+ *  gcc -o rpi-gpio-test rpi-gpio-test-wiringpi.c -lwiringPi -O3
  *
  * When in GPIO-Sys-Mode, export PIN 24 first with
  *  
