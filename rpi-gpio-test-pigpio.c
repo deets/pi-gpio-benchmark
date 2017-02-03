@@ -1,7 +1,7 @@
 /**
  * Compile with 
  *   
- *  gcc -o rpi-gpio-test rpi-gpio-test-wiringpi.c -lwiringPi -O3
+ *  gcc -Wall -o rpi-gpio-pigpio-test rpi-gpio-test-pigpio.c -lpigpio -lpthread  -O3
  *
  * When in GPIO-Sys-Mode, export PIN 24 first with
  *  
@@ -9,8 +9,9 @@
  * 
  */
 
-#include <wiringPi.h>
+#include <pigpio.h>
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
 
@@ -25,7 +26,7 @@ void pause_()
 
 int readPin()
 {
-  return digitalRead(INPUT_PIN);
+  return gpioRead(INPUT_PIN);
 }
 
 
@@ -40,39 +41,34 @@ void sync()
   }
 }
 
-void setup(int use_sys_fs)
+void setup()
 {
-  if(use_sys_fs)
+  if(gpioInitialise() < 0)
   {
-    wiringPiSetupSys();
+    printf("error initialising\n");
+    abort();
   }
   else
   {
-    wiringPiSetupGpio();
+    gpioSetMode(INPUT_PIN, PI_INPUT);
   }
+}
+
+void teardown()
+{
+  gpioTerminate();
 }
 
 
 int main(int argc, char** argv)
 {
-  int use_sys_fs = 0;
-  int c;
-  while ((c = getopt(argc, argv, "s")) != -1)
-  {
-    switch (c)
-    {
-      case 's':
-        use_sys_fs = 1;
-        break;
-    }
-  }
-  setup(use_sys_fs);
-  pinMode (INPUT_PIN, INPUT);
+  setup();
   sync();
   long long counter=0;
   for(; readPin(); ++counter)
   {
   }
   printf("%.lld\n", counter);
+  teardown();
   return 0;
 }
